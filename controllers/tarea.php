@@ -1,6 +1,6 @@
 <?php 
 
-require_once 'model/tarea.php';
+require_once 'models/tarea.php';
 
 class tareaController{
 	public $page_title;

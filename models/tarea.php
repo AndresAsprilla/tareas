@@ -10,8 +10,8 @@ class Tarea {
 	}
 
 	public function getConection(){
-		$dbObj = new Db();
-		$this->conection = $dbObj->conection;
+		$DataBaseObj = new DataBase();
+		$this->conection = $DataBaseObj->conection;
 	}
 
 	public function getTareas(){
@@ -57,13 +57,13 @@ class Tarea {
 
 
 		if($exists){
-			$sql = "UPDATE ".$this->table. " SET titulo=?, descripcion=?, estado=? WHERE id=?";
+			$sql = "UPDATE ".$this->table. " SET titulo=?, descripcion=? WHERE id=?";
 			$stmt = $this->conection->prepare($sql);
-			$res = $stmt->execute([$titulo, $descripcion, $estado, $id]);
+			$res = $stmt->execute([$titulo, $descripcion, $id]);
 		}else{
 			$sql = "INSERT INTO ".$this->table. " (titulo, descripcion, estado) values(?, ?, ?)";
 			$stmt = $this->conection->prepare($sql);
-			$stmt->execute([$titulo, $descripcion, $estado]);
+			$stmt->execute([$titulo, $descripcion, 1]);
 			$id = $this->conection->lastInsertId();
 		}	
 

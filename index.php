@@ -1,10 +1,10 @@
 <?php 
 
 require_once 'config/config.php';
-require_once 'model/db.php';
+require_once 'models/dataBase.php';
 
 if(!isset($_GET["controller"])) $_GET["controller"] = 'tarea';
-if(!isset($_GET["action"])) $_GET["action"] = 'list';
+if(!isset($_GET["action"])) $_GET["action"] = 'listTareas';
 
 $controller_path = 'controllers/'.$_GET["controller"].'.php';
 
