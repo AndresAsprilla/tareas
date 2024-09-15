@@ -28,7 +28,9 @@
       <td><?php if($tarea['estado'] == "1"){ echo nl2br("Pendiente"); } elseif($tarea['estado'] == "2"){ echo nl2br("Completada"); } ?></td>
       <td><a href="index.php?controller=tarea&action=editTarea&id=<?php echo $tarea['id']; ?>" class="btn btn-primary">Editar</a>
       <a href="index.php?controller=tarea&action=confirmDelete&id=<?php echo $tarea['id']; ?>" class="btn btn-danger">Eliminar</a>
-      <a href="index.php?controller=tarea&action=confirmDelete&id=<?php echo $tarea['id']; ?>" class="btn btn-success">Completar</a></td>
+      <?php if($tarea['estado'] == "1"){   ?>
+      <a href="index.php?controller=tarea&action=complete&id=<?php echo $tarea['id']; ?>" class="btn btn-success">Completar</a></td>
+    <?php } ?>
     </tr>
 			<?php
 		}

@@ -45,6 +45,12 @@ class tareaController{
 		return $this->tareaObj->deleteTarea($_POST["id"]);
 	}
 
+    public function complete(){
+		$this->page_title = 'Completar tarea';
+		$this->view = 'complete_tarea';
+		return $this->tareaObj->completeTarea($_GET["id"]);
+	}
+
 }
 
 ?>

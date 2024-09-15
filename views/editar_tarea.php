@@ -7,6 +7,7 @@ if(isset($dataView["data"]["descripcion"])) $descripcion = $dataView["data"]["de
 if(isset($dataView["data"]["estado"])) $estado = $dataView["data"]["estado"];
 
 ?>
+<div class="container">
 <div class="row">
 	<?php
 	if(isset($_GET["response"]) and $_GET["response"] === true){
@@ -30,4 +31,5 @@ if(isset($dataView["data"]["estado"])) $estado = $dataView["data"]["estado"];
 		<input type="submit" value="Guardar" class="btn btn-primary"/>
 		<a class="btn btn-outline-danger" href="index.php?controller=tarea&action=listTareas">Cancelar</a>
 	</form>
+</div>
 </div>

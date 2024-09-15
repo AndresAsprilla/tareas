@@ -78,6 +78,32 @@ class Tarea {
 		return $stmt->execute([$id]);
 	}
 
+	public function completeTarea($id){
+		$this->getConection();
+
+		$exists = false;
+		
+		if(isset($id) and $id !=''){
+			$tareaActual = $this->getTareaById($id);
+			if(isset($tareaActual["id"])){
+				$exists = true;	
+				
+			}else{
+				$id = 0;
+			}
+		}
+
+		if($exists){
+			$sql = "UPDATE ".$this->table. " SET estado=? WHERE id=?";
+			$stmt = $this->conection->prepare($sql);
+			$res = $stmt->execute([2, $id]);
+		}	
+
+		return $id;	
+
+
+}
+
 }
 
 ?>
