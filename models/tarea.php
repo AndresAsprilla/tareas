@@ -1,109 +1,107 @@
-<?php 
+<?php
 
-class Tarea {
+class Tarea
+{
 
 	private $table = 'registro_tareas';
 	private $conection;
 
-	public function __construct() {
-		
-	}
+	public function __construct() {}
 
-	public function getConection(){
+	public function getConection()
+	{
 		$DataBaseObj = new DataBase();
 		$this->conection = $DataBaseObj->conection;
 	}
 
-	public function getTareas(){
+	public function getTareas()
+	{
 		$this->getConection();
-		$sql = "SELECT * FROM ".$this->table;
+		$sql = "SELECT * FROM " . $this->table;
 		$stmt = $this->conection->prepare($sql);
 		$stmt->execute();
 
 		return $stmt->fetchAll();
 	}
 
-	public function getTareaById($id){
-		if(is_null($id)) return false;
+	public function getTareaById($id)
+	{
+		if (is_null($id)) return false;
 		$this->getConection();
-		$sql = "SELECT * FROM ".$this->table. " WHERE id = ?";
+		$sql = "SELECT * FROM " . $this->table . " WHERE id = ?";
 		$stmt = $this->conection->prepare($sql);
 		$stmt->execute([$id]);
 
 		return $stmt->fetch();
 	}
 
-	public function newTarea($param){
+	public function newTarea($param)
+	{
 		$this->getConection();
 
 		$titulo = $descripcion = "";
-        $estado = 1;
+		$estado = 1;
 		$exists = false;
-		if(isset($param["id"]) and $param["id"] !=''){
+		if (isset($param["id"]) and $param["id"] != '') {
 			$tareaActual = $this->getTareaById($param["id"]);
-			if(isset($tareaActual["id"])){
-				$exists = true;	
-				
+			if (isset($tareaActual["id"])) {
+				$exists = true;
+
 				$id = $param["id"];
 				$titulo = $tareaActual["titulo"];
 				$descripcion = $tareaActual["descripcion"];
-                $estado = $tareaActual["estado"];
+				$estado = $tareaActual["estado"];
 			}
 		}
 
-		
-		if(isset($param["titulo"])) $titulo = $param["titulo"];
-		if(isset($param["descripcion"])) $descripcion = $param["descripcion"];
+
+		if (isset($param["titulo"])) $titulo = $param["titulo"];
+		if (isset($param["descripcion"])) $descripcion = $param["descripcion"];
 
 
-		if($exists){
-			$sql = "UPDATE ".$this->table. " SET titulo=?, descripcion=? WHERE id=?";
+		if ($exists) {
+			$sql = "UPDATE " . $this->table . " SET titulo=?, descripcion=? WHERE id=?";
 			$stmt = $this->conection->prepare($sql);
 			$res = $stmt->execute([$titulo, $descripcion, $id]);
-		}else{
-			$sql = "INSERT INTO ".$this->table. " (titulo, descripcion, estado) values(?, ?, ?)";
+		} else {
+			$sql = "INSERT INTO " . $this->table . " (titulo, descripcion, estado) values(?, ?, ?)";
 			$stmt = $this->conection->prepare($sql);
 			$stmt->execute([$titulo, $descripcion, 1]);
 			$id = $this->conection->lastInsertId();
-		}	
+		}
 
-		return $id;	
-
+		return $id;
 	}
 
-	public function deleteTarea($id){
+	public function deleteTarea($id)
+	{
 		$this->getConection();
-		$sql = "DELETE FROM ".$this->table. " WHERE id = ?";
+		$sql = "DELETE FROM " . $this->table . " WHERE id = ?";
 		$stmt = $this->conection->prepare($sql);
 		return $stmt->execute([$id]);
 	}
 
-	public function completeTarea($id){
+	public function completeTarea($id)
+	{
 		$this->getConection();
 
 		$exists = false;
-		
-		if(isset($id) and $id !=''){
+
+		if (isset($id) and $id != '') {
 			$tareaActual = $this->getTareaById($id);
-			if(isset($tareaActual["id"])){
-				$exists = true;	
-				
-			}else{
+			if (isset($tareaActual["id"])) {
+				$exists = true;
+			} else {
 				$id = 0;
 			}
 		}
 
-		if($exists){
-			$sql = "UPDATE ".$this->table. " SET estado=? WHERE id=?";
+		if ($exists) {
+			$sql = "UPDATE " . $this->table . " SET estado=? WHERE id=?";
 			$stmt = $this->conection->prepare($sql);
 			$res = $stmt->execute([2, $id]);
-		}	
+		}
 
-		return $id;	
-
-
+		return $id;
+	}
 }
-
-}
-
-?>

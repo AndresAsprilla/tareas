@@ -26,8 +26,8 @@
       </a>
 
       <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Github</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">LinkedIn</a></li>
+        <li class="nav-item"><a href="https://github.com/AndresAsprilla/tareas" class="nav-link active" aria-current="page">Github</a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/andr%C3%A9s-felipe-asprilla-rivas-48930b196/" class="nav-link">LinkedIn</a></li>
       </ul>
     </header>
   </div>
