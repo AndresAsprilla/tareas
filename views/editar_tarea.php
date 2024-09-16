@@ -10,7 +10,13 @@ if (isset($dataView["data"]["estado"])) $estado = $dataView["data"]["estado"];
 <div class="container">
     <div class="row">
         <?php
-        if (isset($_GET["response"]) and $_GET["response"] === true) {
+        if (isset($_GET["response"]) && $_GET["response"] === false) {
+        ?>
+            <div class="alert alert-danger">
+                Error: <?php echo $_GET["error_message"]; ?>
+            </div>
+        <?php
+        } elseif (isset($_GET["response"]) && $_GET["response"] === true) {
         ?>
             <div class="alert alert-success">
                 Tarea editada/creada correctamente. <a href="index.php?controller=tarea&action=listTareas">Volver al listado</a>

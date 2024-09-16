@@ -39,6 +39,18 @@ class Tarea
 	{
 		$this->getConection();
 
+
+		if (empty($param["titulo"])) {
+			throw new Exception("El título no puede estar vacío");
+		}
+		
+		if (empty($param["descripcion"])) {
+			throw new Exception("La descripción no puede estar vacía");
+		}
+	
+		$titulo = $param["titulo"];
+		$descripcion = $param["descripcion"];
+
 		$titulo = $descripcion = "";
 		$estado = 1;
 		$exists = false;
@@ -55,8 +67,8 @@ class Tarea
 		}
 
 
-		if (isset($param["titulo"])) $titulo = $param["titulo"];
-		if (isset($param["descripcion"])) $descripcion = $param["descripcion"];
+		//if (isset($param["titulo"])) $titulo = $param["titulo"];
+		//if (isset($param["descripcion"])) $descripcion = $param["descripcion"];
 
 
 		if ($exists) {
@@ -64,10 +76,27 @@ class Tarea
 			$stmt = $this->conection->prepare($sql);
 			$res = $stmt->execute([$titulo, $descripcion, $id]);
 		} else {
-			$sql = "INSERT INTO " . $this->table . " (titulo, descripcion, estado) values(?, ?, ?)";
-			$stmt = $this->conection->prepare($sql);
-			$stmt->execute([$titulo, $descripcion, 1]);
-			$id = $this->conection->lastInsertId();
+			try {
+				// Validación de campos vacíos
+				if (empty($param["titulo"])) {
+					throw new Exception("El título no puede estar vacío");
+				}
+		
+				if (empty($param["descripcion"])) {
+					throw new Exception("La descripción no puede estar vacía");
+				}
+		
+				$titulo = $param["titulo"];
+				$descripcion = $param["descripcion"];
+		
+				$sql = "INSERT INTO " . $this->table . " (titulo, descripcion, estado) values(?, ?, ?)";
+				$stmt = $this->conection->prepare($sql);
+				$stmt->execute([$titulo, $descripcion, 1]);
+		
+				return $this->conection->lastInsertId();
+			} catch (PDOException $e) {
+				throw new Exception("Error al guardar en la base de datos: " . $e->getMessage());
+			}
 		}
 
 		return $id;

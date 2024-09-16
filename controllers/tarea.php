@@ -25,12 +25,20 @@ class tareaController{
 	}
 
 	public function createTarea(){
-		$this->view = 'editar_tarea';
-		$this->page_title = 'Editar tarea';
-		$id = $this->tareaObj->newTarea($_POST);
-		$result = $this->tareaObj->getTareaById($id);
-		$_GET["response"] = true;
-		return $result;
+
+		try {
+			$this->view = 'editar_tarea';
+			$this->page_title = 'Editar tarea';
+			$id = $this->tareaObj->newTarea($_POST);
+			$result = $this->tareaObj->getTareaById($id);
+			$_GET["response"] = true;
+			return $result;
+		} catch (Exception $e) {
+			$_GET["response"] = false;
+			$_GET["error_message"] = $e->getMessage();
+			return [];
+		}
+
 	}
 
 	public function confirmDelete(){
